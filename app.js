@@ -34,17 +34,18 @@ wppconnect
   .then((client) => start(client))
   .catch((error) => console.log(error));
 
-   function start(client) {
-     client.onMessage((message) => {
-       if (message.body === 'Hello') {
-         client
-           .sendText(message.from, 'Hello, how I may help you?')
-           .then((result) => {
-             console.log('Result: ', result); //return object success
-           })
-           .catch((erro) => {
-             console.error('Error when sending: ', erro); //return object error
-           });
+   async function start(client) {
+     client.onMessage(async (message) => {
+       if (message.body.toLocaleLowerCase()) {
+         try {
+           // Aguardar a resposta da função getAutoShopAIResponse
+           const resposta = await getAutoShopAIResponse(message.body);
+      
+           // Enviar a resposta para o cliente
+           await client.sendText(message.from, resposta);
+         } catch (erro) { // Capturar o erro como um parâmetro aqui
+           console.log('Error when sending: ', erro); // Imprimir o erro capturado
+         }
        }
      });
-    }
+   }
