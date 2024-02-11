@@ -34,18 +34,18 @@ wppconnect
   .then((client) => start(client))
   .catch((error) => console.log(error));
 
-   async function start(client) {
-     client.onMessage(async (message) => {
-       if (message.body.toLocaleLowerCase()) {
-         try {
-           // Aguardar a resposta da função getAutoShopAIResponse
-           const resposta = await getAutoShopAIResponse(message.body);
-      
-           // Enviar a resposta para o cliente
-           await client.sendText(message.from, resposta);
-         } catch (erro) { // Capturar o erro como um parâmetro aqui
-           console.log('Error when sending: ', erro); // Imprimir o erro capturado
-         }
-       }
-     });
-   }
+  async function start(client) {
+    client.onMessage(async (message) => {
+      if (message.from.endsWith('@c.us')) {
+        try {
+          // Aguardar a resposta da função getAutoShopAIResponse
+          const resposta = await getAutoShopAIResponse(message.body);
+          
+          // Enviar a resposta para o cliente
+          await client.sendText(message.from, resposta);
+        } catch (erro) { // Capturar o erro como um parâmetro aqui
+          console.log('Error when sending: ', erro); // Imprimir o erro capturado
+        }
+      }
+    });
+  }
